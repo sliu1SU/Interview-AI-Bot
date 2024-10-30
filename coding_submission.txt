@@ -1,0 +1,17 @@
+vector<int> twoSum(vector<int>& nums, int target) {
+    vector<int> set;
+    for (int i = 0; i < nums.size() - 1; i++) {
+        for (int j = i + 1; j < nums.size(); j++) {
+            if (nums[i] + nums[j] == target) {
+                set.push_back(i);
+                set.push_back(j);
+                return set;
+            }
+        }
+    }
+
+    // if solution not found, return {0, 0}
+    set.push_back(0);
+    set.push_back(0);
+    return set;
+}
