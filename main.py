@@ -5,6 +5,7 @@ from openai import OpenAI;
 from behavioral_questions import bq;
 from coding_questions import cq;
 from behavioral_qualifiers import bqReqCollection;
+from coding_qulifiers import codingReqCollection;
 
 client = OpenAI(
     # This is the default and can be omitted
@@ -21,7 +22,7 @@ def runBot(entry):
         for line in file:
             # Process or print each line
             #print(line.strip());  # .strip() removes any extra newline characters
-            if line.startswith("coding"):
+            if line.startswith("coding_s"):
                 #this is a coding solution file
                 #print("this is coding");
                 codingFilepath = f"{line.strip()}";
@@ -52,17 +53,22 @@ def readTextFile(filepath):
         return f"An error occurred: {str(e)}"
     return solution;
 
-def evaluateCodingInterview(solutions):
+def evaluateCodingInterview(solutions, explanations):
     arr = [];
     for i in range(len(cq)):
         question = "This is an interview coding question for candidates:\n";
         question += cq[i] + "\n\n"
 
-        solution = "This is the solution of an applicant. Please give me a brief feedback about his coding skill based on his solution.\n"
+        requirement = codingReqCollection[i] + '\n\n';
+
+        solution = "This is the solution of an applicant. Please give me a brief feedback about his coding skill and if I should hire him.\n"
         solution += solutions[i];
 
-        prompt = question + solution;
-        #print(prompt)
+        logicExplanation = "This is the transcript of the candidate explains his logic:\n";
+        logicExplanation += explanations[i]; #make sure u modify it later
+
+        prompt = question + requirement + solution + logicExplanation;
+
         apiResult = client.chat.completions.create(
             messages=[
                 {
@@ -98,7 +104,6 @@ def evaluateBQInterview(solutions):
         )
         fb = apiResult.choices[0].message.content;
         arr.append(fb);
-        arr.append(solution);
     return arr;
 
 def evaluateOverall(codingFeedback, BQFeedback):
@@ -119,6 +124,59 @@ def evaluateOverall(codingFeedback, BQFeedback):
     fb = apiResult.choices[0].message.content;
     return fb;
 
+def evaluateCodingBad():
+    fp = "coding_submission_bad.txt";
+    solution = readTextFile(fp);
+    fp = "bad_coding_transcript.txt";
+    logic = readTextFile(fp)
+    feedbackArr = evaluateCodingInterview([solution], [logic]);
+    return feedbackArr;
+
+def evaluateCodingOk():
+    fp = "coding_submission_ok.txt";
+    solution = readTextFile(fp);
+    fp = "ok_coding_transcript.txt";
+    logic = readTextFile(fp)
+    feedbackArr = evaluateCodingInterview([solution], [logic]);
+    return feedbackArr;
+
+def evaluateCodingOptimal():
+    fp = "coding_submission_opt.txt";
+    solution = readTextFile(fp);
+    fp = "coding_transcript_opt.txt";
+    logic = readTextFile(fp)
+    feedbackArr = evaluateCodingInterview([solution], [logic]);
+    return feedbackArr;
+
+def evaluateBqGood():
+    fp = "behavioral_submission_good.txt";
+    solution = readTextFile(fp);
+    feedbackArr = evaluateBQInterview([solution]);
+    return feedbackArr;
+
+def testTrans():
+    filepath = "mock_transcript.txt";
+    content = readTextFile(filepath);
+    #print("content:", content);
+    header = ("This is a unedited mock interview transcript (from Youtube) between a Meta intern software engineer and a "
+              "senior Google software engineer. Please analyze this transcript and give me some evaluation of how the "
+              "candidate did in this mock interview. \n\n");
+    prompt = header + content;
+    apiResult = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+        model="gpt-4o-mini",
+    )
+    result = apiResult.choices[0].message.content;
+    # Open the file in write mode ('w')
+    with open('mock_interview_Chatgpt_evaluation.txt', 'w') as file:
+        file.write(result);
+    return result;
+
 # # evaluate coding performance
 # codingFilepath = "coding_submission.txt";
 # codingSolution = readTextFile(codingFilepath);
@@ -135,5 +193,25 @@ def evaluateOverall(codingFeedback, BQFeedback):
 # overallFeedback = evaluateOverall(codingFeedback, BQFeedback);
 # print("overallFeedback:\n", overallFeedback);
 
-overallFeedback = runBot("entry");
-print("overall feedback:\n", overallFeedback);
+# overallFeedback = runBot("entry");
+# print("overall feedback:\n", overallFeedback);
+
+# #test bad coding response 2 sum
+# badCodingFb = evaluateCodingBad();
+# for i in range(len(badCodingFb)):
+#     print("bad coding feedback:\n", textwrap.fill(badCodingFb[i], width=88));
+
+# okCodingFb = evaluateCodingOk();
+# for i in range(len(okCodingFb)):
+#     print("ok coding feedback:\n", textwrap.fill(okCodingFb[i], width=88));
+
+# optCodingFb = evaluateCodingOptimal();
+# for i in range(len(optCodingFb)):
+#     print("optimal coding feedback:\n", textwrap.fill(optCodingFb[i], width=88));
+
+# goodBqFb = evaluateBqGood();
+# for i in range(len(goodBqFb)):
+#     print("good BQ feedback:\n", textwrap.fill(goodBqFb[i], width=88));
+
+#test AI bot with youtube mock interview transcript
+mockEvalResult = testTrans();

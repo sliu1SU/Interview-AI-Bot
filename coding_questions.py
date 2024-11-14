@@ -12,4 +12,6 @@ q1 = ("Given an array of integers nums and an integer target, return indices of 
       "Input: nums = [3,3], target = 6 "
       "Output: [0,1]" );
 
+q2 = ("https://leetcode.com/problems/number-of-islands/description/");
+
 cq = [q1]

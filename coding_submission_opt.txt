@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> set;
+        unordered_map<int, int> setMap; // declare map
+        unordered_map<int, int>::iterator itr; // declare iterator
+        
+        // push all elements in vec into map & check if complement
+        // associated with the element exists in the map
+        for (int i = 0; i < nums.size(); i++) {
+            setMap.insert({nums[i], i}); // key-value pair
+            int complement = target - nums[i];
+            
+            // check if the complement exists in the map
+            if (setMap.find(complement) != setMap.end() && setMap.find(complement) -> second != i) {
+                set.push_back(i);
+                set.push_back(setMap.find(complement) -> second);
+                return set;
+            }
+        }
+        
+        // if solution not found, return null
+        return {};
+    }
+};

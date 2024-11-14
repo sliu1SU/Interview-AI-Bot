@@ -1,0 +1,854 @@
+0:00
+bro yeah but don't worry this is gonna be fun for one of us
+0:08
+for me can you like call me calm me down before we start I'm nervous I haven't
+0:14
+coded in a in a loan it's ever since I failed my last Citadel interview all
+0:19
+right bro if I fail tomorrow I will be calling you okay pause this is frying pan he's a
+0:26
+college student who recently finished an internship at meta and today we are doing a mock Google coding interview the
+0:33
+day after we conducted this he actually had an interview at Bloomberg for a new grad position but if you're new to the
+0:38
+channel I'm neat code I started working at Google as a software engineer about a year ago my channel is all about helping
+0:44
+people prepare for coding interviews by the way if you're preparing for coding interviews definitely check out
+0:51
+neatco.io it's a site that I created to help you Ace your next coding interview we also have courses for algorithms and
+0:58
+system design and actually the question I'll be asking frying pan is from this list anyways moving on with this mock
+1:05
+interview I'm trying to emulate how a real Google coding interview goes so this is meant to be as realistic as
+1:12
+possible I'm gonna give pan a data structures and algorithms related question and I'm gonna expect him to
+1:18
+solve it it's okay if I have to give him some hints but he should be able to solve most of the problem by himself if
+1:24
+he wants to get a higher rating and either after he finishes coding or we run out of time I'm going to do the
+1:30
+debrief which is basically tell him how he did what he could have done better I'm going to give him realistic feedback
+1:35
+on how he can improve for next time and I'm also going to give a binary decision on whether I would hire him or not hire
+1:42
+him so without further Ado let's get started okay so I'm gonna start the timer right now okay
+Interview Starts
+1:50
+okay so this is a question I want you to design a class that supports these three
+1:58
+operations so the first operation is inserting a value
+2:04
+and you can assume that there's no duplicates allowed so you might be given
+2:09
+a duplicate but you don't want to actually store the duplicate the second thing is removing a value
+2:16
+from this class and where it gets interesting is I want you to be able to
+2:23
+get a random value that is already inserted
+2:30
+and among the values that are inserted I want it to be of equal probability
+2:37
+so just these three operations
+2:43
+okay okay um
+Clarifying questions
+2:48
+all right so let me just repeat the question back
+2:53
+to you to make sure I understood it from what I understand
+2:59
+I have to create a class that essentially has three functions
+3:05
+one is to insert an element second one is to remove an element and the third
+3:11
+one is to get a random value that is currently in the class is that correct
+3:17
+yep that's exactly right nice are these values like integers or
+3:23
+strings or like animals like are they specific something
+3:28
+yeah you can assume that they're integers okay all right great so
+3:37
+then let me ask you this question are there gonna be a lot of elements we're inserting or
+3:46
+um is it just gonna be a certain amount uh you can assume that it's like a
+3:51
+reasonable amount like less maybe like in the terms of millions but it's you shouldn't run into like any limitations
+3:58
+like with memory or anything like that okay so let me ask you another question
+4:06
+is there going to be more insertions done or more removals done or more get
+4:14
+randoms done uh you can assume that they'll be like
+4:21
+of equal quantity like equal proportion okay
+4:27
+thank you very much I'm gonna ask you one final question before I start coding Can I code in
+4:34
+Python sure okay here we go so the first thing
+4:39
+I'm gonna do is create a class wow there's Auto capitalization in this
+Start coding
+4:45
+Google doc I don't know why you guys perform your interviews in Google Docs I think it's very stupid but all right so
+4:51
+class um um okay so let's just call this a store
+4:59
+class store and we're going to start with the
+5:06
+Constructor is there a way to turn off this Auto capitalization sir this is
+5:12
+really annoying yeah you can just pretend like we can ignore the capitalization you can just assume hey
+5:21
+try to ignore it I'm just gonna say it's not very inclusive of you because I have OCD and
+5:28
+this is pissing me off all right so uh Constructor in it
+5:34
+and this will be the Constructor so here we go
+5:40
+what is what are the variables we need here right we are inserting values and
+5:45
+removing values so we need a data structure to store these things so let's think about
+5:52
+what we actually can use for this we can either use an array so if we use an array
+5:59
+um inserting removing will be
+6:04
+um okay so it will have to it will be all of one on average
+6:10
+but um since we're inserting a lot of elements um
+6:16
+okay I will have to keep growing in size and it might be useful for the get
+6:21
+random since we have an index okay let me just think about this for uh five
+6:29
+seconds
+6:45
+yeah okay so if we use an array to insert these
+6:52
+values and we don't want duplicates so let's say we just use an array and we insert values
+6:58
+um removing a value would be all of n since we have to find the actual value so
+7:05
+let's say we use a hash map to insert these values we can make sure that there
+7:11
+are no duplicates and we can make sure that inserting and removing is on average
+7:16
+um very fast of one no that sounds good to me okay
+7:23
+the third thing we have to consider is we need to get a random value out of everything that is inserted
+7:31
+um how to get a random value with equal probability
+7:38
+yeah when it comes to getting random I'll actually help you out here and just let you know that you can assume that
+Hint #1
+7:46
+there is a method let's call it random dot choice I think in Python and it
+7:53
+takes some list of values and it'll return you a random number with equal
+7:58
+probability from that list I actually already knew that but thank
+8:04
+you very much for the reminder so let me just start by initializing a hash map
+8:10
+equals to inserting values uh okay this
+8:19
+so the next function will be insert def uh insert and for the parameter it will
+8:27
+just be a value right we're passing one value to this function Okay so
+8:33
+let's see um I think we can just insert it directly like this
+8:40
+um value inside of it I think this can actually just be a set
+8:49
+um since starting a value removing
+8:56
+okay so there's nothing um for the input is it just one value or
+9:03
+is this uh something else during the insertion yeah you can just assume that it's an
+9:09
+integer okay
+9:15
+okay then I think what we can just do is add this value to the set
+9:24
+and okay and then for the remove and just
+9:32
+remove value from that
+9:39
+move a value so these will be a very quick operation no duplicates I think this is fine since
+9:47
+it's set so if there's already one it will just replace it or not put it in
+9:53
+um and then for the get random
+9:59
+uh get a value that is already okay so if there's a function that you
+10:06
+can just get something from a list randomly
+10:11
+I guess the easiest way is to just convert this set into a list and use this function on it
+10:18
+okay so we can just do return um yeah return
+10:25
+um random.choice list self done
+10:37
+and yeah let me put this uh here since these are class function
+10:45
+hey um so
+10:52
+we can also also add some checks for uh this set like to see if it's like empty
+10:58
+or not before removing um or to see if this map exists but I think
+11:05
+that's fine since by initializing this class uh this map will exist so
+11:10
+yeah this will be o of one insertion of one remove and um this will be
+Suboptimal solution
+11:17
+of n for the get random and yeah
+11:23
+[Music] yeah that's correct so this definitely works is it possible to get the get
+11:32
+random function to be a bit more efficient
+11:37
+okay
+12:01
+so uh this random.choice is or then correct like it has to iterate through
+12:06
+the entire list to uh give an answer yeah well let's assume that the random
+12:14
+is actually constant time so where your function is becoming a linear
+12:22
+time is converting the entire set to a list I see I see okay
+12:31
+okay all right hmm
+12:39
+okay so let me think about this um since the conversion is
+12:45
+it cannot be avoided if we use a set I'm assuming uh for this to store these
+12:51
+values we probably have to use an array so
+12:56
+um the problem with using an array is the removal will be uh not efficient anymore is that an
+13:04
+issue or do we want all these functions to be of one is that what we want
+13:10
+yeah that's a good point because if we do it the way you kind of proposed we can get the get random to be more
+13:16
+efficient but remove will then be linear time so we don't really improve anything assuming that each of these is called
+13:24
+like an equal amount of times which you clarified so yeah you're on the right track I is it
+13:30
+possible that we can get all three of these to be constant time okay
+13:42
+let's see um
+13:47
+okay so I think we probably have to use a combination of uh data structure here so
+13:54
+let's say we have an array where we store these values and um yeah we insert and
+14:01
+we remove values from there um so let's say we have a hash map that
+14:08
+stores the index of each value
+14:16
+then um when we remove we can just remove it from the hash map and take a note there
+14:23
+and then we know that it's not in the array anymore even though it's like technically still there
+14:31
+um then we can fix the problem of removal being slower so then removal and
+14:37
+insertion will will both be on average of one but then for the get random
+14:43
+there will be there will be integers in the list
+14:48
+that are not supposed to be in there okay so
+14:54
+um how do we make sure that those integers are not
+14:59
+taken into account
+15:04
+um okay
+15:10
+what if every time we have a value we want to remove
+15:17
+and we know where it is in the array right so let's say we switch the place of this element to the beginning of the
+15:24
+array and or to the first element that is still supposed to be inside this array
+15:32
+so then we can essentially segregate segregate separate all the values that
+15:39
+are technically not supposed to be in the array and all the values that are supposed to be in the in the array
+15:46
+so once we have all of this separated
+15:52
+um what can we do then
+15:57
+okay so I'm thinking if we have all of this separated right we know where the separation is we can probably know
+16:04
+um the last element that is not supposed to be in this array from there until the end
+16:11
+oh oh yes so we can do from there till the end
+16:17
+uh use the random choice on on those but then we still have to slice the
+16:23
+array so that's still kind of O of n it's like a bit better
+16:28
+um does that make sense
+16:34
+yeah I think you're definitely on the right track uh I guess I have a question
+LIGHTBULB MOMENT
+16:39
+so you said earlier that the problem is we can't remove
+16:45
+a value from an array in constant time right yeah why is that the case
+16:53
+because uh it could be in but on average will now be constant time since if it's in the middle of the array we have to
+17:00
+move all the elements at the end um and like push them back
+17:06
+yeah that's true is there any case where we're moving from an array actually is constant time
+17:14
+oh if it's at the end of the array it'll
+17:19
+be constant so if that's the case
+17:26
+wait what does that tell me okay so if okay so if we do that and at every time
+17:33
+we remove something
+17:39
+um we switch it with the end of the array and then we remove it
+17:45
+that will be all of one and then we can just use the random.choice on the original list because they won't have
+17:53
+all the values okay I will start coding now
+17:59
+okay sounds good okay okay all right
+18:04
+so uh
+18:11
+okay so the first thing is we'll initialize a array self Dot
+18:19
+um we'll call this value
+18:25
+okay we'll call this values and it's going to be an array and we're also going to use a hash map
+18:30
+to store the index of each value where each value is okay so now for let's
+18:37
+let's go for insertion how will insertion work here
+18:43
+so I think the first thing we need to do is check if it's already in there so if the
+18:49
+value that we want to insert is in self.map then we want to return since we don't
+18:58
+want any duplicates right so um is this the correct Behavior we want so if there's a duplicate we just do not
+19:05
+insert the new value yeah that works yeah so
+19:13
+once we have this [Music] um
+19:19
+um I think we can just perform the insertion so self dot uh values we can
+19:27
+we can put append value
+19:32
+now how do we know what Index this is because we have to put this in a map
+19:39
+um so the value of this will be equal to the index so this index
+19:46
+will be I think the length of this array since
+19:52
+it's the last element so length of self.values minus
+19:59
+one perfect I think this is correct for now
+20:06
+value in self-dot map if it's already in there we return otherwise we append it to the values array and we store at what
+20:13
+Index this value is okay mm-hmm
+20:21
+okay so now let's go to the remove function the remove function
+20:28
+um we first want to check if it's in the map at all right so if value is in
+20:35
+self.map then um well if it's if it's not in the
+20:41
+self.map we can simply return
+20:47
+okay now if it is if it is in that means it's
+20:53
+um it's an accurate value that's also in the array okay and then we want to remove that so
+21:00
+um we can find at which Index this value is by using the map so self.value uh
+21:06
+self.map value to get the index of where this value is inside of the actual array
+21:13
+and then uh here is where we need to perform the swapping okay
+21:18
+okay um okay so let me think about this how do we perform the swap
+21:24
+hmm okay so I think we just remove it to the
+21:32
+last element um and to do this we can simply
+21:38
+um do um the last let's save the last element
+21:43
+so um last value is going to equal to self dot
+21:51
+values minus one and then
+21:57
+um we can put this new value at that place self.values
+22:04
+um value equals to
+22:10
+um values minus one
+22:16
+okay and we want to put this one back
+22:22
+so self.map
+22:28
+um last value is going to equal to
+22:35
+index oh
+22:41
+okay let me just make sure the swapping makes sense so I'm getting the last element
+22:46
+from this array saving it and then replacing
+22:57
+um and then adding this new value I need to add it to the last
+23:04
+the last index so I'm adding this new wait a second
+23:11
+value okay so now I'm adding this new value or no we're removing this value so
+23:16
+yeah I'm I'm adding a value that I want to remove to the last index of the
+23:21
+values and then I'm putting the previous last value at
+23:28
+um the index of the other element I'm trying to remove okay and then at the very end of this we
+23:36
+can then remove um said
+23:41
+value we want to remove and so I think we can use
+23:47
+delete how to remove an element from I guess we
+23:52
+can just use I don't know if delete is the correct keyword but I'll just set it to uh none for now
+Half time remaining
+24:00
+yeah I think delete is fine delete is fine okay delete self.values minus one oh I delete
+24:07
+the last value from the array okay and inside of the get random function we can
+24:13
+just simply do a random choice self dot values does this make sense
+24:23
+yeah this makes sense so a quick correction actually I said it was delete but I thought uh we were talking about
+24:30
+the hash map but for the list itself uh you can just use pop okay yeah
+24:36
+great oh you true
+24:43
+yeah okay and um okay so I'm missing something here is
+24:50
+we need to also update the map um so in order to update the map we're
+24:55
+gonna do uh Delete self.n map and uh value
+25:01
+and this deletes it from the map okay so let me just make sure in the
+25:08
+insertion we're appending to the values and we're also updating the map and in
+25:13
+the remove we're also updating the values array and also updating the map
+25:19
+um perform the swapping
+25:28
+oh uh do you want to walk through a couple like test cases yeah for sure okay
+Test cases
+25:36
+um okay so let's say we insert um
+25:42
+um three uh four five five
+25:48
+okay let's just say we insert three four four and then uh we want to remove three
+25:54
+and that's it we answer also five and then we remove three and then we uh get
+26:01
+random okay so then obviously we we first we
+26:07
+initialize the class and then um let me write down
+26:14
+self.values this self.net okay
+26:20
+so to keep track of the values first we insert three now and in the insertion a
+26:26
+value in self-map it's not in the map it's going to append to the values array
+26:31
+so we have three and then it's going to put it in the map so in the map we're
+26:36
+going to have a three with indexed index 0.
+26:42
+okay after this we're going to insert four
+26:49
+insert four again or actually the first four um it's going to be the same thing so
+26:55
+append value four to the value array and put it in the map so four with index
+27:01
+length of self dot values it's two minus one is one so here we go
+27:07
+then we insert four again it's already in it we just return then we insert uh five so same thing
+27:14
+it's going to append five to this and um self-taught five is going to be two
+27:23
+value of two okay and at this point we want to delete three right so going into
+27:30
+the remove um function we can see that three is inside of it so
+27:36
+now we get the index of three which is x equals to zero and then the last value
+27:43
+is equal to five
+27:49
+go to five and self-doubt values minus 1 is going
+27:56
+to equal to the value so here we're going to update 5 to
+28:02
+um value we want to delete which is three and then
+28:07
+um self.map last value equals to
+28:14
+um whoa hold on um
+28:21
+equals value
+28:26
+okay so I think I'm missing something here so we need to also re-put the first
+28:33
+element that we deleted back inside so self.values at index is going to equal
+28:39
+to um last value right so
+28:45
+um this index is zero I'm going to replace three with uh five which is the
+28:50
+last values value okay okay at this point
+28:56
+um we're updating the map so self.map last value which is five we're updating
+29:01
+the index back to zero and then uh we pop from the last uh
+29:09
+array so it's only five four now and we also delete uh three from the map
+29:17
+okay and at this point uh we get the we get something random and it's going to
+29:23
+get something random from five or four there we go
+29:30
+yeah perfect we got it yeah that was a good catch let's go
+29:38
+so I have a question a couple of questions so with this remove
+29:46
+yeah actually uh no I mean it looks good I guess I my
+29:52
+other question is so this solution works perfectly if we don't allow any duplicates but what
+Follow-up Question
+30:00
+would happen if we did allow duplicates like we could have multiple threes multiple fours and in that case uh the
+30:10
+probability would still be the same actually like we would still want the you know the random to be proportional
+30:17
+to how many times each value has been inserted so we don't have to change the get random but how would you change the
+30:24
+rest of this code to allow for duplicate values
+30:30
+okay so in that if if that's a scenario that
+30:36
+means uh the four here that we Implement so there's going to be two fours um in the array correct in this example
+30:44
+I have down here yep okay
+30:51
+so that wouldn't work with the current one because uh in the hash map
+30:56
+I can only have I cannot have duplicates so in this case
+31:03
+I think uh what comes to mind is instead of uh associating each value with just one
+31:11
+value one index I can put an array here and
+31:19
+um instead of counting
+31:26
+okay so if I use an array I can store multiple indices so if I have a four I have I can have a four at index one I
+31:33
+can have a four at another index and by having that
+31:40
+um yeah then we just have to uh
+31:47
+update the so in that case the remove can just uh
+31:54
+Delete any of these fours right it can be the first four four or the second four the third four it doesn't really
+32:01
+matter and I think that's that's pretty much it I can just replace the one with an array to uh keep track of the
+32:08
+duplicates so and that's exactly correct yeah so and yeah yeah in the insertion I would
+32:14
+obviously check if it's already in the self map I would append to the array um
+32:20
+does that make sense oh that sounds good
+32:28
+hey no we can code that up oh okay we code that up all right
+32:33
+I thought we're just talking all right all right so if that's the case
+32:40
+um in the insertion we're gonna start here if value is in self map uh return
+32:47
+so obviously we're gonna change this um [Music]
+32:55
+okay so instead of using a um initializing like this here I'm going
+33:01
+to use collections not default thick uh and I'm gonna put a list in here so I can just append directly to an empty
+33:08
+list for every value so if the value is already in the self map
+33:13
+um I'm just going to do self self map value dot append uh
+33:19
+uh length of self dot value
+33:27
+uh uh minus one and also obviously appendix to the
+33:35
+values array boom
+33:40
+okay and although okay so maybe this is the only
+33:46
+thing self.mapt.values um okay so actually we don't even need this
+33:54
+um we can just do this
+34:01
+so we're just going to directly um append it to a value in the map if it
+34:10
+doesn't exist it's going to be an empty list and this is going to be the first element associated with it if it does
+34:17
+exist well it was it's going to be the same thing and append it to the value array
+34:23
+okay this is this works for the insert now for the removal
+34:28
+if the value is not in self map um return that's that's fine uh we have to
+34:37
+change something regarding this swapping because now what we're returning is
+34:43
+um an array and delftmap.value okay so we're just going
+34:49
+to return the first index to and we're going to delete this first index
+34:55
+so the index is going to be um the first index of this value whether
+35:00
+it's duplicate or not okay so then um this is fine it will all work we just
+35:08
+have to change the the map so the map last value equals index we're going to
+35:13
+do append instead of equal um
+35:18
+yeah okay and cell values.pop delete self okay so
+35:26
+in the delete here we have to change it so self dot map
+35:31
+um value this is going to be an array we don't want to delete this entire array so what
+35:38
+we need to do is delete the specific index inside of this array
+35:45
+and something we can do to make this better is use a set instead of a list
+35:54
+so I'll just use a set here um and
+36:00
+we're going to since order the order doesn't matter here I'll just use a set and it'll be faster for insertion and
+36:06
+deletes so self dot values append so we're going to do add
+36:12
+and here we're going to add
+36:17
+and self.map Dot value we're going to remove this index move index
+36:27
+okay
+36:36
+um okay
+36:43
+all right so I think this works uh do you want me to
+36:50
+run this through an example again uh sure yeah let's go ahead and do the
+Bug bashing
+36:56
+same example that yeah perfect okay all right so
+37:02
+let's start over so self-doubt values uh we do an
+37:08
+insertion we're going to go quicker here um we add um
+37:13
+uh into the map first so the map will have value three with a set of
+37:22
+um it'll be zero or it's index and then in the values array we're going to just
+37:28
+append three so no problem and then we're going to do it the same for four so four is going to
+37:34
+be like this and then after this uh we're gonna add
+37:40
+another four so um it's gonna go self.map value add to
+37:46
+this so 4 is going to add um two here
+37:51
+okay actually I have to do this append before adding it
+37:58
+so that the length is accurate okay so now that we have uh everything
+38:03
+in the values array and the map um yeah we have the duplicates and then we
+38:09
+add five uh five is going to be here and
+38:14
+um five is gonna okay
+38:20
+all right perfect and okay instead of the the leading three we're going to delete four here to see how it works for
+38:27
+because the deleting three will be I think pretty trivial so deleting four will be the one that has two that has a
+38:34
+duplicate um okay so if value is not in southern it is in so index is equal to self.map
+38:42
+uh value zero okay so zero here um
+38:50
+I cannot use zero here how to get the first element
+38:55
+hmm how do I get one element out of a set
+39:01
+um yeah maybe I do need to use a list
+Disqualified for cheating
+39:20
+I think we can just assume that there is a way to remove it because I think otherwise I got it I got it sir I got it
+39:27
+we can use dot iterator parentheses dot next to get the first element of the set
+39:35
+now yeah that's great yes bet you didn't know that now we're gonna do swapping
+39:40
+okay so uh index is gonna equal to the first element which is one
+39:48
+um last underscore value is going to be equal to the last value of this array
+39:55
+which is five at this point we're gonna do self.value
+40:02
+index which is one equals to last value so self dot values index is uh the first
+40:09
+four is going to equal to five boom and then self.map last value
+40:18
+um last value is five so this one we're going to add this index uh-huh where we
+40:26
+have to add one here but we need to delete the previous one so we also need
+40:31
+to do self of self.map last value remove
+40:40
+um um
+40:47
+remove the last length of self.values minus one so yeah
+40:55
+so this is three so we remove three okay and then uh we pop from the value so we
+41:01
+pop wait wait
+41:08
+self.values index which is three okay I don't think I did this line so self.values index which
+41:16
+with indexes three is one wait
+41:22
+okay uh I think there's a problem here so
+41:28
+index here is one self.values last element is value
+41:33
+okay okay I forgot to do this so 5 is going
+41:39
+to be equal to four here at the at the end so then when once we pop we're gonna
+41:44
+pop four from this and then we're gonna remove um this value which is four we removed
+41:51
+we're going to remove the index the index which was one here so we're going to remove one from this
+41:57
+and we're done please tell me there's no more
+42:03
+follow-ups uh we have like four minutes left but I think this code looks good yes uh do you
+Interview Complete
+42:12
+have anything else you wanted to change [ __ ] no no I'm kidding but I think
+42:19
+let me add another follow-up let me ask you a question
+42:26
+is this code thread safe
+42:31
+uh probably not correct
+42:36
+in order to make this code thread safe we need to add
+42:41
+locks for the insert and the remove
+42:48
+and the get random and that will be all thank you very much did I get the job yeah so we finished
+Debrief
+42:55
+with four minutes remaining so yeah let's do the debrief now okay uh
+43:02
+I wasn't taking notes actually usually in like a real interview your interviewer will take notes so first
+43:08
+like I gave Pan the question it was really open-ended I just said like insert a value remove a value and get a
+43:15
+random value and he clarified that these are like what are we inserting and I
+43:21
+said numbers like integers specifically that was good by him I think he could
+43:26
+have done a little bit uh I forgot what exactly his clarifying questions were I
+43:31
+think it could have been like slightly better uh talking about like the edge cases of like what if we don't have any
+43:37
+values that we can remove well he handled that in his code but what about if we don't have any values that we can
+43:43
+get a random value from uh the way we coded it we assumed that there's always going to be some values inserted which
+43:50
+is the case but true that was more of like an assumption
+43:55
+that he made but he didn't like like specifically clarify that but I think it worked out uh as he was
+44:03
+coding he when he finished he talked about like
+44:08
+the time complexity and you know without without being prompted to like before he
+44:14
+even coded he was talking about ways to make it more efficient I think that's good because you could easily go down
+44:19
+like the wrong track with these problems and if you go too deep without asking any clarifying questions you might have
+44:25
+to like restart your entire solution which will waste a lot of time he didn't have to do that because well like this
+44:32
+problem you either use a list or a hash map so you can't really mess up but you know it could happen with other
+44:38
+problems so running through like the test case he did really good I think on
+44:45
+just like keeping track of everything just like explicitly writing it down when I say like do a test case like in
+44:51
+real interviews people will actually mess it up a lot like sometimes people won't write any notes like as they're
+44:58
+running through a test case and like they just lose track of what they're doing and sometimes I'll even
+45:04
+lose track like I don't even know what they're like saying anymore so I think pan did a good job of like making it
+45:12
+pretty obvious to me what he was thinking about the entire time like what was going well and like what the time
+45:19
+complexity was what data structures he was planning on using like just everything so overall and like you got
+45:27
+the correct solution for the first question and the follow-up I guess you needed like a few hints but
+45:34
+the fact that like the solution is correct I'll give like a binary decision of whether I would like lean towards no
+Final Results
+45:41
+higher or higher and I would say for this problem I would definitely give you a higher let's go
+45:49
+we passed I guess Citadel thought otherwise
+45:55
+wow you had to add in there what the [ __ ]
+46:02
+I'm sorry what the [ __ ] okay I have a question for you I have a question for
+46:08
+you in your real interviews do you talk the same way
+46:13
+[Music] no of course not bro I
+46:20
+wait what's wrong with how I talked yeah I mean like nothing nothing
+46:29
+it was good no it's my turn to interview you Nicole I have a hard DP question for
+46:36
+you okay let's go that's gonna be on next
+46:42
+time it's coin change all right that would be next time or you should stream and we can stream together
+46:49
+yeah this was fun honestly just like reading chat at the same time I was just reading chat like during the entire
+46:54
+interview and I would like glance over and just see if you had anyone
