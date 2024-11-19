@@ -14,4 +14,4 @@ q1 = ("Given an array of integers nums and an integer target, return indices of 
 
 q2 = ("https://leetcode.com/problems/number-of-islands/description/");
 
-cq = [q1]
+cq = [q1, q2]

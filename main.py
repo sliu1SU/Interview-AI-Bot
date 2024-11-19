@@ -1,41 +1,27 @@
 import textwrap
+from fileinput import filename
+from os import write
 
 from openai import OpenAI;
 # Import the array from data.py;
-from behavioral_questions import bq;
-from coding_questions import cq;
-from behavioral_qualifiers import bqReqCollection;
-from coding_qulifiers import codingReqCollection;
+behavioral_questions = [];
+coding_questions = [];
+behavioral_qualifiers = [];
+coding_qualifiers = [];
+codingSolutions = [];
+codingTranscripts = [];
+BQSolutions = [];
+
+apiKey = "";
 
 client = OpenAI(
     # This is the default and can be omitted
-    api_key="",
+    api_key = apiKey,
 )
 
 def runBot(entry):
-    # Open the file in read mode
-    codingSolutions = [];
-    BQSolutions = [];
-
-    with open(f"{entry}.txt", "r") as file:
-        # Read each line in the file
-        for line in file:
-            # Process or print each line
-            #print(line.strip());  # .strip() removes any extra newline characters
-            if line.startswith("coding_s"):
-                #this is a coding solution file
-                #print("this is coding");
-                codingFilepath = f"{line.strip()}";
-                codingSolution = readTextFile(codingFilepath);
-                codingSolutions.append(codingSolution);
-            elif line.startswith("behavioral"):
-                #this is a BQ solution file
-                #print("this is behavioral");
-                BQFilepath = f"{line.strip()}";
-                BQSolution = readTextFile(BQFilepath);
-                BQSolutions.append(BQSolution);
-
-    codingFeedback = evaluateCodingInterview(codingSolutions);
+    prepareData(entry);
+    codingFeedback = evaluateCodingInterview(codingSolutions, codingTranscripts);
     BQFeedback = evaluateBQInterview(BQSolutions);
     overall = evaluateOverall(codingFeedback, BQFeedback);
     return overall;
@@ -53,18 +39,61 @@ def readTextFile(filepath):
         return f"An error occurred: {str(e)}"
     return solution;
 
+def prepareData(entry):
+    # Open the file in read mode
+    with open(f"{entry}.txt", "r") as file:
+        # Read each line in the file
+        for line in file:
+            # Process or print each line
+            # print(line.strip());  # .strip() removes any extra newline characters
+            if line.startswith("coding_submission"):
+                # this is a coding solution file
+                # print("this is coding");
+                codingFilepath = f"{line.strip()}";
+                codingSolution = readTextFile(codingFilepath);
+                codingSolutions.append(codingSolution);
+            elif line.startswith("coding_t"):
+                # this is a coding transcript file
+                codingTransFilepath = f"{line.strip()}";
+                codingScript = readTextFile(codingTransFilepath);
+                codingTranscripts.append(codingScript);
+            elif line.startswith("behavioral_submission"):
+                # this is a BQ solution file
+                # print("this is behavioral");
+                BQFilepath = f"{line.strip()}";
+                BQSolution = readTextFile(BQFilepath);
+                BQSolutions.append(BQSolution);
+            elif line.startswith("behavioral_qualifier"):
+                fp = f"{line.strip()}";
+                content = readTextFile(fp);
+                behavioral_qualifiers.append(content);
+            elif line.startswith("coding_qualifier"):
+                fp = f"{line.strip()}";
+                content = readTextFile(fp);
+                coding_qualifiers.append(content);
+            elif line.startswith("coding_question"):
+                fp = f"{line.strip()}";
+                content = readTextFile(fp);
+                coding_questions.append(content);
+            elif line.startswith("behavioral_question"):
+                fp = f"{line.strip()}";
+                content = readTextFile(fp);
+                behavioral_questions.append(content);
+
 def evaluateCodingInterview(solutions, explanations):
     arr = [];
-    for i in range(len(cq)):
-        question = "This is an interview coding question for candidates:\n";
-        question += cq[i] + "\n\n"
+    for i in range(len(coding_questions)):
+        question = "This is an interview coding question for the candidate:\n\n";
+        question += coding_questions[i] + "\n\n"
 
-        requirement = codingReqCollection[i] + '\n\n';
+        requirement = "These are the requirements of my coding questions or the candidate:";
+        for j in range(len(coding_qualifiers)):
+            requirement += coding_qualifiers[j] + '\n\n';
 
-        solution = "This is the solution of an applicant. Please give me a brief feedback about his coding skill and if I should hire him.\n"
+        solution = "This is the solution of an applicant. Please give me a brief feedback about his coding skill and if I should hire him.\n\n"
         solution += solutions[i];
 
-        logicExplanation = "This is the transcript of the candidate explains his logic:\n";
+        logicExplanation = "This is the transcript of the candidate explains his logic:\n\n";
         logicExplanation += explanations[i]; #make sure u modify it later
 
         prompt = question + requirement + solution + logicExplanation;
@@ -80,16 +109,21 @@ def evaluateCodingInterview(solutions, explanations):
         )
         fb = apiResult.choices[0].message.content;
         arr.append(fb);
+    filename = "coding_evaluation.txt";
+    writeToTxtFile(filename, arr);
+    print('coding feedback len = ', len(arr), '\n');
+    print('coding feedback:\n', arr);
     return arr;
 
 def evaluateBQInterview(solutions):
     arr = [];
-    requirements = "This is what I am looking for from an applicant:\n";
-    for j in range(len(bqReqCollection)):
-        requirements += bqReqCollection[j] + '\n\n';
-    for i in range(len(bq)):
-        question = "This is the interview behavioral question:\n" + bq[i] + "\n";
-        solution = "This is the answer of an applicant. Is he a good fit for my company based on his answer?\n";
+    requirements = "These are the requirements of the behavioral question(s) for the candidate:\n";
+    for j in range(len(behavioral_qualifiers)):
+        requirements += behavioral_qualifiers[j] + '\n\n';
+    for i in range(len(behavioral_questions)):
+        question = "This is the interview behavioral question for the candidate:\n\n";
+        question += behavioral_questions[i] + "\n\n";
+        solution = "This is the answer of an applicant. Is he a good fit for my company based on his answer?\n\n";
         solution += solutions[i];
         # openai api call
         prompt = requirements + question + solution;
@@ -104,12 +138,21 @@ def evaluateBQInterview(solutions):
         )
         fb = apiResult.choices[0].message.content;
         arr.append(fb);
+    filename = "BQ_evaluation.txt";
+    writeToTxtFile(filename, arr);
+    print('BQ feedback len = ', len(arr), '\n');
+    print('BQ feedback:\n', arr);
     return arr;
 
 def evaluateOverall(codingFeedback, BQFeedback):
-    prompt = "Based on the following feedbacks generated by you, do you think I should hire the candidate as a new grad software engineer?\n";
+    prompt = ("Based on the following feedbacks generated by you, do you think I should hire the candidate as a new grad software engineer?"
+              " at the end of the answer you will generate, please also give me a yes or no.\n\n");
+    codingfbHeader = "the followings are the coding feedbacks:\n\n";
+    prompt += codingfbHeader;
     for i in range(len(codingFeedback)):
         prompt += codingFeedback[i] + '\n\n';
+    bqfbHeader = "the followings are the behavioral feedbacks:\n\n";
+    prompt += bqfbHeader;
     for i in range(len(BQFeedback)):
         prompt += BQFeedback[i] + '\n\n';
     apiResult = client.chat.completions.create(
@@ -122,7 +165,18 @@ def evaluateOverall(codingFeedback, BQFeedback):
         model="gpt-4o-mini",
     )
     fb = apiResult.choices[0].message.content;
+    writeToTxtFile('overall_Chatgpt_evaluation.txt', fb);
     return fb;
+
+def writeToTxtFile(filename, content):
+    # Open the file in write mode ('w')
+    if (isinstance(content, str)):
+        with open(filename, 'w') as file:
+            file.write(content);
+    elif (isinstance(content, list)):
+        with open(filename, "w") as file:
+            for single in content:
+                file.write(single + "\n\n")
 
 def evaluateCodingBad():
     fp = "coding_submission_bad.txt";
@@ -135,7 +189,7 @@ def evaluateCodingBad():
 def evaluateCodingOk():
     fp = "coding_submission_ok.txt";
     solution = readTextFile(fp);
-    fp = "ok_coding_transcript.txt";
+    fp = "coding_transcript1.txt";
     logic = readTextFile(fp)
     feedbackArr = evaluateCodingInterview([solution], [logic]);
     return feedbackArr;
@@ -172,19 +226,17 @@ def testTrans():
         model="gpt-4o-mini",
     )
     result = apiResult.choices[0].message.content;
-    # Open the file in write mode ('w')
-    with open('mock_interview_Chatgpt_evaluation.txt', 'w') as file:
-        file.write(result);
+    writeToTxtFile('mock_interview_Chatgpt_evaluation.txt', result);
     return result;
 
 # # evaluate coding performance
-# codingFilepath = "coding_submission.txt";
+# codingFilepath = "coding_submission1.txt";
 # codingSolution = readTextFile(codingFilepath);
 # codingFeedback = evaluateCodingInterview([codingSolution]);
 # #print("coding feedback:", textwrap.fill(codingFeedback[0], width=88));
 #
 # # evaluate BQ performance
-# BQFilepath = "behavioral_submission.txt";
+# BQFilepath = "behavioral_submission1.txt";
 # BQSolution = readTextFile(BQFilepath);
 # BQFeedback = evaluateBQInterview([BQSolution]);
 # #print("BQ feedback:", textwrap.fill(BQFeedback[0], width=88));
@@ -193,8 +245,8 @@ def testTrans():
 # overallFeedback = evaluateOverall(codingFeedback, BQFeedback);
 # print("overallFeedback:\n", overallFeedback);
 
-# overallFeedback = runBot("entry");
-# print("overall feedback:\n", overallFeedback);
+overallFeedback = runBot("entry");
+#print("overall feedback:\n", overallFeedback);
 
 # #test bad coding response 2 sum
 # badCodingFb = evaluateCodingBad();
@@ -213,5 +265,5 @@ def testTrans():
 # for i in range(len(goodBqFb)):
 #     print("good BQ feedback:\n", textwrap.fill(goodBqFb[i], width=88));
 
-#test AI bot with youtube mock interview transcript
-mockEvalResult = testTrans();
+# #test AI bot with youtube mock interview transcript
+# mockEvalResult = testTrans();
