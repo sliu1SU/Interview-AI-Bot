@@ -175,6 +175,7 @@ class InterviewBot:
                 for single in content:
                     file.write(single + "\n\n")
 
+key = "";
 script = "entry";
-bot = InterviewBot();
+bot = InterviewBot(key);
 bot.runBot(script);
