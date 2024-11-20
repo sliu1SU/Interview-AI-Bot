@@ -184,7 +184,7 @@ class InterviewBot:
 # codingTranscripts = [];
 # BQSolutions = [];
 #
-# apiKey = "";
+
 #
 # client = OpenAI(
 #     # This is the default and can be omitted
@@ -440,7 +440,7 @@ class InterviewBot:
 # #test AI bot with youtube mock interview transcript
 # mockEvalResult = testTrans();
 
-key = "";
+key = ;
 script = "entry";
 bot = InterviewBot(key);
 bot.runBot(script);
